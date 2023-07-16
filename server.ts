@@ -34,6 +34,7 @@ mongoose.connect(mongodb)
 
   app.post('/books', (req: Request, res: Response) => {
     const book: IBook = new Book(req.body);
+    console.log(req.body);
     book.save()
       .then((result: IBook) => {
         res.json(result);
@@ -70,6 +71,49 @@ mongoose.connect(mongodb)
   });
   
 
+
+  // Update a book
+  app.patch('/books/:guid', (req: Request, res: Response) => {
+
+    console.log(req.body.reviews );
+    Book.findOneAndUpdate({ guid: req.params.guid }, { $set: { reviews: req.body.reviews } }, { new: true })
+      .then((book: IBook | null) => {
+        if (book) {
+          res.json(book);
+        } else {
+          res.status(404).json({ error: 'Book not found' });
+        }
+      })
+      .catch((error: Error) => {
+        res.status(500).json({ error: 'Error updating book' });
+      });
+  });
+
+
+
+  app.delete('/books/:guid', (req: Request, res: Response) => {
+    
+    console.log(req.params.guid);
+    Book.findOneAndDelete({ guid: req.params.guid })
+      .then((book: IBook | null) => {
+        if (book) {
+          res.json(book);
+        } else {
+          res.status(404).json({ error: 'Book not found' });
+        }
+      })
+      .catch((error: Error) => {
+        res.status(500).json({ error: 'Error deleting book' });
+      });
+  });
+
+
+
+
+
+
+
+
   app.patch('/books/edit/:guid', (req: Request, res: Response) => {
 
     console.log("edit");
@@ -91,47 +135,8 @@ mongoose.connect(mongodb)
 
 
 
-
-
-
-  // Update a book
-  app.patch('/books/:guid', (req: Request, res: Response) => {
-
-    console.log(req.body.reviews );
-    Book.findOneAndUpdate({ guid: req.params.guid }, { $set: { reviews: req.body.reviews } }, { new: true })
-      .then((book: IBook | null) => {
-        if (book) {
-          res.json(book);
-        } else {
-          res.status(404).json({ error: 'Book not found' });
-        }
-      })
-      .catch((error: Error) => {
-        res.status(500).json({ error: 'Error updating book' });
-      });
-  });
-
-
-
-
-
-
-
-
   // Delete a book
-  app.delete('/books/:id', (req: Request, res: Response) => {
-    Book.findByIdAndDelete(req.params.id)
-      .then((book: IBook | null) => {
-        if (book) {
-          res.json(book);
-        } else {
-          res.status(404).json({ error: 'Book not found' });
-        }
-      })
-      .catch((error: Error) => {
-        res.status(500).json({ error: 'Error deleting book' });
-      });
-  });
+
 
 
 

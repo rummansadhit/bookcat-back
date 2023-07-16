@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import Book, { IBook } from './model/book';
 import dotenv from 'dotenv';
 import cors from 'cors';
+
 dotenv.config();
 
 const app = express();
@@ -69,7 +70,7 @@ mongoose.connect(mongodb)
   });
   
   // Update a book
-  app.put('/books/:id', (req: Request, res: Response) => {
+  app.patch('/books/:id', (req: Request, res: Response) => {
     Book.findByIdAndUpdate(req.params.id, req.body, { new: true })
       .then((book: IBook | null) => {
         if (book) {
@@ -97,3 +98,13 @@ mongoose.connect(mongodb)
         res.status(500).json({ error: 'Error deleting book' });
       });
   });
+
+
+
+
+
+
+
+
+
+  

@@ -69,6 +69,31 @@ mongoose.connect(mongodb)
       });
   });
   
+
+  app.patch('/books/edit/:guid', (req: Request, res: Response) => {
+
+    console.log("edit");
+    Book.findOneAndUpdate({ guid: req.params.guid }, { $set: { ...req.body} }, { new: true })
+      .then((book: IBook | null) => {
+        if (book) {
+          res.json(book);
+        } else {
+          res.status(404).json({ error: 'Book not found' });
+        }
+      })
+      .catch((error: Error) => {
+        res.status(500).json({ error: 'Error updating book' });
+      });
+  });
+
+
+
+
+
+
+
+
+
   // Update a book
   app.patch('/books/:guid', (req: Request, res: Response) => {
 
@@ -87,21 +112,6 @@ mongoose.connect(mongodb)
   });
 
 
-  app.patch('/books/edit/:guid', (req: Request, res: Response) => {
-
-    console.log("edit");
-    Book.findOneAndUpdate({ guid: req.params.guid }, { $set: { ...req.body} }, { new: true })
-      .then((book: IBook | null) => {
-        if (book) {
-          res.json(book);
-        } else {
-          res.status(404).json({ error: 'Book not found' });
-        }
-      })
-      .catch((error: Error) => {
-        res.status(500).json({ error: 'Error updating book' });
-      });
-  });
 
 
 

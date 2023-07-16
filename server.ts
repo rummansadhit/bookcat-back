@@ -3,15 +3,16 @@ import mongoose, { Document } from 'mongoose';
 import bodyParser from 'body-parser';
 import Book, { IBook } from './model/book';
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
-
+app.use(cors());
 // Set up middleware
 app.use(bodyParser.json());
 
 // Start the server
-const port = 3000;
+const port = 5000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

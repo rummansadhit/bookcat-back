@@ -5,6 +5,7 @@ export interface IBook extends Document {
   author: string;
   genre: string;
   publicationDate: Date;
+  guid: string;
 
 }
 
@@ -13,6 +14,7 @@ const bookSchema = new Schema<IBook>({
   author: { type: String, required: true },
   genre: { type: String, required: true },
   publicationDate: { type: Date, required: true },
+  guid: { type: String, required: false, unique: true },
   
 });
 

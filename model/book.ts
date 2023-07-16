@@ -2,8 +2,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 
 export interface IReview extends Document {
-  bookId: string;
-  username: string;
+  
+  userName: string;
   comment: string;
 }
 
@@ -20,8 +20,8 @@ export interface IBook extends Document {
 
 
 const reviewSchema = new Schema<IReview>({
-  bookId: { type: String, required: true },
-  username: { type: String, required: true },
+  
+  userName: { type: String, required: true },
   comment: { type: String, required: true },
 });
 

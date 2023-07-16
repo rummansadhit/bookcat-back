@@ -70,8 +70,10 @@ mongoose.connect(mongodb)
   });
   
   // Update a book
-  app.patch('/books/:id', (req: Request, res: Response) => {
-    Book.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  app.patch('/books/:guid', (req: Request, res: Response) => {
+
+    console.log(req.body.reviews );
+    Book.findOneAndUpdate({ guid: req.params.guid }, { $set: { reviews: req.body.reviews } }, { new: true })
       .then((book: IBook | null) => {
         if (book) {
           res.json(book);
@@ -83,7 +85,6 @@ mongoose.connect(mongodb)
         res.status(500).json({ error: 'Error updating book' });
       });
   });
-  
   // Delete a book
   app.delete('/books/:id', (req: Request, res: Response) => {
     Book.findByIdAndDelete(req.params.id)
